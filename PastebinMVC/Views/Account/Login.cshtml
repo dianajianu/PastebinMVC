@@ -1,0 +1,29 @@
+﻿@model PastebinMVC.Models.UserModel
+
+@{
+    ViewBag.Title = "Login";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using (Html.BeginForm("Login", "Account", FormMethod.Post))
+{
+    <div class="login-page">
+        <div class="form">
+            @Html.TextBoxFor(m => m.Username, new { @placeholder = "username", @style = "text-align:center" })
+            @Html.ValidationMessageFor(m => m.Username)
+            @Html.TextBoxFor(m => m.Password, new { @placeholder = "password", @style = "text-align:center" })
+            @Html.ValidationMessageFor(m => m.Password)
+            <input type="submit" value="Login" class="button">
+            <input type="hidden" id="returnUrl" name="returnUrl" value="@ViewBag.ReturnUrl" />
+            @if (!ViewData.ModelState.IsValid)
+            {
+                foreach(var error in ViewData.ModelState.Values.SelectMany(e => e.Errors))
+                {
+                    <div class="alert-danger">
+                        @error.ErrorMessage
+                    </div>
+                 }
+            }
+        </div>
+    </div>
+}

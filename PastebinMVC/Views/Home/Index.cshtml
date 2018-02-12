@@ -1,0 +1,42 @@
+﻿@model PastebinMVC.Models.PasteModel
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="left">
+    @using (Html.BeginForm("Paste", "Home", FormMethod.Post, new { target = "_blank", id = "myDiv" }))
+    {
+        @Html.TextArea("currentPaste", Model.CurrentPaste ?? string.Empty, new { @class = "border" })
+        @Html.LabelFor(model => model.SyntaxFormatterCode, new { style = "font-family:verdana;font-size:small;color:##383c3a" })
+        @Html.DropDownListFor(model => model.SyntaxFormatterCode, new SelectList(Model.SyntaxFormatters, "Value", "Text"), "-- None --")
+        <button type="submit" style="float:right">Save</button>
+    }
+</div>
+
+<div class="right">
+    @if (Request.IsAuthenticated)
+    {
+        <div style="background-color:#d2e2f9; text-align:center; padding: 5px; font-size:small; font-family: Verdana; color:#757b79">
+            Previous pastes
+        </div>
+        <table class="table">
+            <tr>
+                <th></th>
+                <th></th>
+            </tr>
+            @foreach (var item in Model.PreviousPastes)
+            {
+                <tr>
+                    <td width="70%">
+                        @Html.DisplayFor(modelItem => item.Content)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Details", "Paste", new { pasteId = item.Id }, new { target = "_blank" }) | 
+                        @Html.ActionLink("Delete", "Delete", new { pasteId = item.Id })
+                    </td>
+                </tr>
+            }
+        </table>
+    }
+</div>
