@@ -10,8 +10,8 @@ namespace PastebinMVC.Controllers
     {
         public ActionResult Index()
         {
-            PasteModel model = new PasteModel();
-            model.SyntaxFormatters = new List<SelectListItem> { new SelectListItem { Text = "C#", Value = "C#" }, new SelectListItem { Text = "Html", Value = "Html" } };
+            GeneralPastesModel model = new GeneralPastesModel();
+            model.SyntaxFormatters = new List<SelectListItem> { new SelectListItem { Text = "C#", Value = "language-csharp" }, new SelectListItem { Text = "Html", Value = "language-html" }, new SelectListItem { Text = "Css", Value = "language-css" } };
 
             if (User.Identity.IsAuthenticated)
                 model.PreviousPastes = GetPreviousPastes();
@@ -19,15 +19,15 @@ namespace PastebinMVC.Controllers
             return View(model);
         }
 
-        public IList<PreviousPastesModel> GetPreviousPastes()
+        public IList<PasteModel> GetPreviousPastes()
         {
             var allText = Facade.GetTexts();
 
-            var model = allText.Select(e => new PreviousPastesModel
-            {
-                Id = e.Id,
-                Content = e.Content
-            }).ToList();
+                var model = allText.Select(e => new PasteModel
+                {
+                    Id = e.Id,
+                    Content = (e.Content?.Length >= 20) ? e.Content.Substring(0, 20) : e.Content
+                }).ToList();
 
             return model;
         }
@@ -35,27 +35,39 @@ namespace PastebinMVC.Controllers
         [HttpPost, ValidateInput(false)]
         public ActionResult Paste(PasteModel model)
         {
-            long? id = null;
+            long id;
+            long? syntaxFormatterId = Facade.GetSyntaxFormatterByCode(model.SyntaxFormatterCode)?.Id;
             if (User.Identity.IsAuthenticated)
             {
-                Facade.AddText(model.CurrentPaste, Utils.Session.UserId, out id);
-                return RedirectToAction("Paste", new { pasteId = id });
+                Facade.AddText(model.Content, Utils.Session.UserId, syntaxFormatterId, out id);
+                model.Id = id;
+                return RedirectToAction("PasteDetails", new { pasteId  = id });
             }
 
-            return PartialView("_RawText", model.CurrentPaste);
+            return PartialView("_RawText", model);
         }
 
         [HttpGet]
-        public ActionResult Paste(long pasteId)
+        public ActionResult PasteDetails(long pasteId)
         {
-            string text = Facade.GetTextById(pasteId).Content;
+            var paste = Facade.GetTextById(pasteId);
+            long? syntaxFormatterId = paste.SyntaxFormatterId;
 
-            return PartialView("_RawText", text);
+            PasteModel model = new PasteModel
+            {
+                Id = paste.Id,
+                Content = paste.Content,
+                SyntaxFormatterCode = (syntaxFormatterId != null) ? Facade.GetSyntaxFormatterById((long)paste.SyntaxFormatterId)?.FormatterCode : string.Empty
+            };
+
+            return PartialView("_RawText", model);
         }
 
-        public void Delete(long pasteId)
+        [HttpGet]
+        public ActionResult Delete(long pasteId)
         {
             Facade.RemovePaste(pasteId);
+            return RedirectToAction("Index");
         }
 
         public ActionResult Contact()

@@ -21,6 +21,7 @@ namespace PastebinMVC
 
             bundles.Add(new ScriptBundle("~/bundles/prism").Include(
                       "~/Scripts/prism.js",
+                      "~/Scripts/custom.js",
                       "~/Scripts/respond.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(

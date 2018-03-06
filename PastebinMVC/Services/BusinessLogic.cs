@@ -50,6 +50,24 @@ namespace PastebinMVC.Services
             }
         }
 
+        internal SyntaxFormatter GetSyntaxFormatterByCode(string syntaxFormatterCode)
+        {
+            using (var repo = _uow.SyntaxFormatterRepository)
+            {
+                return repo.LoadAllEntities()
+                    .Where(e => e.FormatterCode == syntaxFormatterCode)
+                    .FirstOrDefault();
+            }
+        }
+
+        internal SyntaxFormatter GetSyntaxFormatterById(long syntaxFormatterId)
+        {
+            using (var repo = _uow.SyntaxFormatterRepository)
+            {
+                return repo.LoadEntityById(syntaxFormatterId);
+            }
+        }
+
         internal User GetUserByUsernameAndPassword(string username, string password)
         {
             using (var repo = _uow.UserRepository)
@@ -66,11 +84,11 @@ namespace PastebinMVC.Services
             }
         }
 
-        internal void AddText(string content, long userId, out long? id)
+        internal void AddText(string content, long userId, long? syntaxFormatterId, out long id)
         {
             using (var repo = _uow.TextRepository)
             {
-                var text = new Text { Content = content, UserId = userId };
+                var text = new Text { Content = content, UserId = userId, SyntaxFormatterId = syntaxFormatterId };
 
                 repo.Add(text);
                 repo.Save();

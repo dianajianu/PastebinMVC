@@ -1,4 +1,4 @@
-﻿@model PastebinMVC.Models.PasteModel
+﻿@model PastebinMVC.Models.GeneralPastesModel
 
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -7,10 +7,11 @@
 <div class="left">
     @using (Html.BeginForm("Paste", "Home", FormMethod.Post, new { target = "_blank", id = "myDiv" }))
     {
-        @Html.TextArea("currentPaste", Model.CurrentPaste ?? string.Empty, new { @class = "border" })
+
+        @Html.TextArea("Content", new { @class = "border" })
         @Html.LabelFor(model => model.SyntaxFormatterCode, new { style = "font-family:verdana;font-size:small;color:##383c3a" })
         @Html.DropDownListFor(model => model.SyntaxFormatterCode, new SelectList(Model.SyntaxFormatters, "Value", "Text"), "-- None --")
-        <button type="submit" style="float:right">Save</button>
+        <button type="submit" id="myButton" style="float:right">Save</button>
     }
 </div>
 
@@ -32,8 +33,8 @@
                         @Html.DisplayFor(modelItem => item.Content)
                     </td>
                     <td>
-                        @Html.ActionLink("Details", "Paste", new { pasteId = item.Id }, new { target = "_blank" }) | 
-                        @Html.ActionLink("Delete", "Delete", new { pasteId = item.Id })
+                        @Html.ActionLink("Details", "PasteDetails", new { pasteId = item.Id }, new { target = "_blank" }) |
+                        @Html.ActionLink("Delete", "Delete", new { pasteId = item.Id }, new { onclick = "return confirm('Are you sure you wish to delete this loan?');" })
                     </td>
                 </tr>
             }

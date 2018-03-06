@@ -12,14 +12,18 @@ namespace PastebinMVC.DAL.Entities
     using System;
     using System.Collections.Generic;
     
-    public partial class Text
+    public partial class SyntaxFormatter
     {
-        public long Id { get; set; }
-        public string Content { get; set; }
-        public Nullable<long> UserId { get; set; }
-        public Nullable<long> SyntaxFormatterId { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public SyntaxFormatter()
+        {
+            this.Text = new HashSet<Text>();
+        }
     
-        public virtual SyntaxFormatter SyntaxFormatter { get; set; }
-        public virtual User User { get; set; }
+        public long Id { get; set; }
+        public string FormatterCode { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Text> Text { get; set; }
     }
 }

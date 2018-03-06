@@ -4,9 +4,11 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="8e4214cc228a4a94aeb1700a53dd6049" Name="Diagram1">
-        <EntityTypeShape EntityType="PastebinModel.User" Width="1.5" PointX="2.75" PointY="0.75" />
-        <EntityTypeShape EntityType="PastebinModel.Text" Width="1.5" PointX="5" PointY="1" />
+      <Diagram DiagramId="abf267f8fedb43399437eefd6eb06b85" Name="Diagram1">
+        <EntityTypeShape EntityType="PastebinModel.SyntaxFormatter" Width="1.5" PointX="2.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="PastebinModel.User" Width="1.5" PointX="0.75" PointY="0.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="PastebinModel.Text" Width="1.5" PointX="5" PointY="2" />
+        <AssociationConnector Association="PastebinModel.FK_Text_1_0" />
         <AssociationConnector Association="PastebinModel.FK_Text_0_0" />
       </Diagram>
     </edmx:Diagrams>

@@ -35,6 +35,16 @@ namespace PastebinMVC.Services
             return BusinessLogicInstance.GetTextByUserId(userId);
         }
 
+        internal static SyntaxFormatter GetSyntaxFormatterByCode(string syntaxFormatterCode)
+        {
+            return BusinessLogicInstance.GetSyntaxFormatterByCode(syntaxFormatterCode);
+        }
+
+        internal static SyntaxFormatter GetSyntaxFormatterById(long syntaxFormatterId)
+        {
+            return BusinessLogicInstance.GetSyntaxFormatterById(syntaxFormatterId);
+        }
+
         internal static  User GetUserByUsernameAndPassword(string username, string password)
         {
             return BusinessLogicInstance.GetUserByUsernameAndPassword(username, password);
@@ -45,9 +55,9 @@ namespace PastebinMVC.Services
             return BusinessLogicInstance.GetAllTextByUserId(userId);
         }
 
-        internal static void AddText(string content, long userId, out long? id)
+        internal static void AddText(string content, long userId, long? syntaxFormatterId, out long id)
         {
-            BusinessLogicInstance.AddText(content, userId, out id);
+            BusinessLogicInstance.AddText(content, userId, syntaxFormatterId, out id);
         }
     }
 }

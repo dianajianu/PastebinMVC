@@ -1,7 +1,12 @@
-﻿@model string
-
+﻿@model PastebinMVC.Models.PasteModel
+<link href="~/Content/prism.css" rel="stylesheet" />
+<script src="~/Scripts/prism.js"></script>
 <div id="#myDiv">
-    @Model
+    <pre>
+    <code class="@Model.SyntaxFormatterCode">
+        @Model.Content
+        </code>
+    </pre>
 </div>
 
 

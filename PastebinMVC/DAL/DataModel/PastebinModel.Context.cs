@@ -25,6 +25,7 @@ namespace PastebinMVC.DAL.Entities
             throw new UnintentionalCodeFirstException();
         }
     
+        public virtual DbSet<SyntaxFormatter> SyntaxFormatter { get; set; }
         public virtual DbSet<User> User { get; set; }
         public virtual DbSet<Text> Text { get; set; }
     }

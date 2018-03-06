@@ -8,10 +8,12 @@ namespace PastebinMVC.DAL.Repository
         private PastebinEntities _context;
         private PastebinRepository<Text> _textRepository;
         private PastebinRepository<User> _userRepository;
+        private PastebinRepository<SyntaxFormatter> _syntaxFormatterRepository;
 
         public PastebinEntities Context => _context ?? new PastebinEntities();
         public PastebinRepository<Text> TextRepository => _textRepository ?? new PastebinRepository<Text>(Context);
         public PastebinRepository<User> UserRepository => _userRepository ?? new PastebinRepository<User>(Context);
+        public PastebinRepository<SyntaxFormatter> SyntaxFormatterRepository => _syntaxFormatterRepository ?? new PastebinRepository<SyntaxFormatter>(Context);
 
         public void Commit()
         {
